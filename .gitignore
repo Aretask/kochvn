@@ -1,0 +1,13 @@
+# phpstorm project files
+.idea
+web/parsefile
+vendor
+tests
+runtime
+
+# netbeans project files
+nbproject
+
+# composer itself is not needed
+composer.phar
+
