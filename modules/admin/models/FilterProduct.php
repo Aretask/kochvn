@@ -33,7 +33,7 @@ Class FilterProduct extends ActiveRecord {
         return $filter_del->delete();
 
     }
-    
+
      public function getFilterByIdItem($item_id){
                   $filter_list=    self::find()
                     ->where("productId=".$item_id)
