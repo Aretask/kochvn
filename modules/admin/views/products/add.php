@@ -1,4 +1,8 @@
-
+<style>
+    .copy{
+        margin-left:5px;
+    }
+</style>
 <?php
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -27,8 +31,10 @@ Breadcrumbs::widget([
 <?php if (!empty($error)) { ?>
 <div class="alert alert-warning" role="alert">К сожалению, такого товара еще не создали.</div>
 <?php }else{?>
-<?php if (!empty($_GET['copy']) && $_GET['copy']==1) { ?>
-<div class="alert alert-info" role="alert">Внимание! Создана копия товара</div>
+<?php if (!empty($pruductInfo->status) && $pruductInfo->status==1) { ?>
+<div class="alert alert-info" role="alert">Внимание! Создана копия товара<br>
+    Для отображения на сайте нажмите кнопку схранить
+</div>
 <?php }?>
 <div class="row row-offcanvas row-offcanvas-right">
     <h3 id="glyphicons-glyphs">Добавление/Редактирование товара
@@ -44,9 +50,6 @@ Breadcrumbs::widget([
             <a target="_blank"href="http://kochevnik.com.ua/item/<?php echo $pruductInfo->translit; ?>_<?php echo $pruductInfo->productId; ?>.html"> 
                 <button  type="button"  class="btn btn-default add" >Посмотреть на сайте</button>
             </a>
-            <a href="/admin/products/add?id=<?=$pruductInfo->productId;?>&copy=1"> 
-                <button  type="button"  class="btn btn-default add" >Копировать</button>
-            </a>
     <?php }; ?>
     </h3>
     <?php if (!empty($pruductInfo->articul)) { ?> Артикул  <?= $pruductInfo->articul; ?><?php }; ?>
@@ -59,12 +62,12 @@ Breadcrumbs::widget([
             ])
     ?>
 <?= Html::activeHiddenInput($model, 'productId') ?>
-<?= Html::activeHiddenInput($model, 'copy') ?>
     <div class="row">
         <div class="col-xs-2">
             <label class="col-sm-2">Фото</label>
         <?= Html::activeFileInput($model, 'image', ["class" => "form-control"]) ?>
         </div>
+        <?= Html::activeHiddenInput($model, 'image') ?>
 <?php if (!empty($pruductInfo->image)) { ?>
             <div class="col-xs-3">
                 <img style="height:115px" src="<?php echo $pruductInfo->image; ?>" title="">
@@ -144,8 +147,9 @@ Breadcrumbs::widget([
     </div>
 
     <div class="row">
-        <div style="margin: 4% 50%;">
+        <div style="margin: 4% 40%;">
 <?= Html::submitButton('Сохранить', ['class' => 'btn btn-default add']) ?>
+<?= Html::submitButton('Создать копию', ['value'=>'1','name'=>'copy','class' => 'btn btn-default copy']) ?>
         </div>
     </div>
 <?php ActiveForm::end() ?>
