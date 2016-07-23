@@ -12,6 +12,7 @@
               <td><?= $value['filter'] ?></td>
               <td>
                  <a  target="_blank" href="/admin/products/add?id=<?= $value['productId'] ?>"><div class="btn btn-primary completeorder">Редактировать</div></a>
+                 <?php if($value['status']==1){?><br>Не активно<?php }?>
               </td>
           </tr>
           <?php endforeach; ?>
