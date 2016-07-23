@@ -67,6 +67,7 @@ Class Pruducts extends ActiveRecord{
                   $products_sql->where("pruducts.made={$data['brand_id']}");
                }
            }
+           $products_sql->andWhere("pruducts.status=0");
            $products_sql->groupBy("pruducts.productId");
            $total=$products_sql->count();  
            $products_sql->orderBy("pruducts.dateAdd DESC, pruducts.countOrder DESC");
