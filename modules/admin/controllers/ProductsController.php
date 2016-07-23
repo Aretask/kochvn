@@ -98,15 +98,14 @@ class ProductsController extends Controller
          $categoriesInfo=array();
          $filtersArray=array();
          $modificationArray=array();
-         $copy=false;
          $error=false;
-         if(!empty($_GET['copy']) && $_GET['copy']==1){
-             $copy=true;
-         }
          
         if($post_data && $model->load($post_data)){
             if($model->validate()){
                $id=$model->saveForm($post_data);
+               if(!empty($post_data['copy']) && $post_data['copy']==1){
+                   $model->copyItemData($post_data['AddProductsForm']['productId'],$id);
+               }
                return $this->redirect("/admink32/products/add?id=".$id);
             }else{
                return $this->redirect("/admink32/products/add?errr=1&id=".$request['id']);
@@ -117,11 +116,8 @@ class ProductsController extends Controller
           $id=$request['id'];
           $pruductInfo=Pruducts::findOne($id);
           if(!empty($pruductInfo)){
-          if(!empty($copy)){
-             $pruductInf['productId']=0;  
-          }else{
-            $pruductInf['productId']=$pruductInfo->productId;
-          }
+          $pruductInf['productId']=$pruductInfo->productId;
+          $pruductInf['image']=$pruductInfo->image;
           $pruductInf['title']=$pruductInfo->title;
           $pruductInf['translit']=$pruductInfo->translit;
           $pruductInf['description']=$pruductInfo->description;
@@ -133,7 +129,6 @@ class ProductsController extends Controller
           $pruductInf['rubricId']=$pruductInfo->rubricId;
           $pruductInf['categoryId']=$pruductInfo->categoryId;
           $pruductInf['made']=$pruductInfo->made;
-          $pruductInf['copy']=$id;
           $model->setAttributes($pruductInf,'');
           $categories=new Categories();
           $categoriesInfo=$categories->getCategories($pruductInfo->rubricId);
