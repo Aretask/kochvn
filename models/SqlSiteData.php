@@ -125,7 +125,7 @@ Class SqlSiteData extends \yii\base\Model{
             " FROM kochevni_new.pruducts as p ".
             " INNER JOIN kochevni_new.madeCompany as mc ON p.made=mc.idCompany".
             " INNER JOIN kochevni_new.filterProduct as fp ON p.productId=fp.productId".
-            " WHERE p.categoryId =".$data_search['category'].
+            " WHERE p.`status`=0  AND p.categoryId =".$data_search['category'].
                     (!empty($data_search['brand_id'])?" AND p.made='".$data_search['brand_id']."'":"").
             " AND  fp.filter IN (".$data_search['filters'].")".
             " GROUP BY p.productId HAVING c=".$count.$limit_sql;
