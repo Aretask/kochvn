@@ -60,7 +60,7 @@ Class SqlQueryData extends \yii\base\Model{
         $page=$page*10;
         $result['page']=$page;
         $limit=' LIMIT '.$page.', 10';
-        $qs='SELECT p.productId,p.title ,p.price,p.priceSet,m.nameSuplier,
+        $qs='SELECT p.productId,p.title ,p.price,p.priceSet, p.status, m.nameSuplier,
             m.curenccy,c.name,GROUP_CONCAT(fi.nameItem) as filter' .
             ' FROM kochevni_new.pruducts as p '.
             ' LEFT JOIN kochevni_new.filterProduct as fp ON p.productId=fp.productId '.
