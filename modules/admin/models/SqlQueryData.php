@@ -169,7 +169,8 @@ Class SqlQueryData extends \yii\base\Model{
    public function recountPrice($data){
        if(!empty($data)){
             $queryManager = new QueryManager;
-        $qs="UPDATE kochevni_new.pruducts SET price=priceSet*".$data['curenccy']." WHERE currency=".$data['idSuplier']; 
+        $qs="UPDATE kochevni_new.pruducts SET price=priceSet*".$data['curenccy']
+                .", priceAction=actionPriceSet*".$data['curenccy']." WHERE currency=".$data['idSuplier']; 
         return  $queryManager->updateSqlData($qs); 
            
        }
