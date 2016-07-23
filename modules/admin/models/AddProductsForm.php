@@ -6,6 +6,7 @@ use app\modules\admin\models\Pruducts;
 use app\modules\admin\managers\ResizeCrop;
 use app\modules\admin\models\SqlQueryData;
 use app\modules\admin\models\FilterProduct;
+use app\modules\admin\models\ProductSpecifications;
 
 class AddProductsForm extends \yii\base\Model
 {
@@ -35,14 +36,20 @@ class AddProductsForm extends \yii\base\Model
     public function saveForm($data){
         $image_data = $_FILES['AddProductsForm'];
         $postArray=$data['AddProductsForm'];
-         unset($postArray['image']);
+        if(!empty($data['copy']) && $data['copy']==1){
+            $postArray['productId']=0;
+            $postArray['status']=1;
+        }else{
+          $postArray['status']=0;
+          unset($postArray['image']);  
+        }
         if ($postArray['productId']!=0) {
              $pruducts = Pruducts::findOne($postArray['productId']);
              $pruducts=$this->setArray($pruducts,$postArray, array('productId','translit'));
              $pruducts->update();
         } else {
             $pruducts=new Pruducts();
-            $pruducts=$this->setArray($pruducts,$postArray, array('productId','copy'));
+            $pruducts=$this->setArray($pruducts,$postArray, array('productId'));
             $pruducts->save();
             $postArray['productId'] = \Yii::$app->db->getLastInsertID();
         }
@@ -54,8 +61,8 @@ class AddProductsForm extends \yii\base\Model
            $photo_prod->productId=$postArray['productId'];
            $photo_prod->save();
            $photoId = \Yii::$app->db->getLastInsertID();
-            $uploaddir = '/home/kochevni/domains/kochevnik.com.ua/public_html/web/images/products';
-          //  $uploaddir = '/var/www/kochevn/web/images/products';
+           $uploaddir = '/home/kochevni/domains/kochevnik.com.ua/public_html/web/images/products';
+    //       $uploaddir = '/var/www/html/kochevn/web/images/products';
             if ($image_data['name']['image']) {
                 $typePhoto = array(
                     '/medium/' => ['400', '250'],
@@ -83,21 +90,29 @@ class AddProductsForm extends \yii\base\Model
             }
         }
         
-        if(!empty($postArray['copy']) && $postArray['productId'] ){
-            $this->copyItemData($postArray['copy'],$postArray['productId']);
-        }
         return $postArray['productId'];
     }
     
-    private function copyItemData($fromId,$toId){
-       $from_item= Pruducts::findOne($fromId);
-       $image=$from_item->image;
-       $pruducts = Pruducts::findOne($toId);
-       $pruducts->image=$from_item->image;
-       $pruducts->update();
-       $filter_from=FilterProduct()->getFilterByIdItem($fromId);
-       $filter_from=FilterProduct()->getFilterByIdItem($fromId);
+    public function copyItemData($fromId,$toId){
+       $filter_from=new FilterProduct();
+       $product_specifications=new ProductSpecifications();
+       $filter_data=$filter_from->getFilterByIdItem($fromId);
+       $specification_data=$product_specifications->getSpecifications($fromId);
        
+       foreach($filter_data as $filter){
+           $params['productId']=$toId;
+           $params['categoryId']=$filter['categoryId'];
+           $params['made']=$filter['made'];
+           $params['filter']=$filter['filter'];
+           $filter_from->addFilterItem($params);
+       }
+       
+       foreach($specification_data as $specification){
+           $paramss['productId']=$toId;
+           $paramss['nameSpecifications']=$specification['nameSpecifications'];
+           $paramss['valueSpecifications']=$specification['valueSpecifications'];
+           $product_specifications->addSpecification($paramss);
+       }
     }
     
     private function setArray($model, $data, $exept = array()) {
