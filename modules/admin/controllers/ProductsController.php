@@ -148,7 +148,7 @@ class ProductsController extends Controller
         }else{
             $error=true;
         }
-        
+        }
         //Остальная инфо
         
           $madeSupliers=new MadeSuplier();
@@ -159,7 +159,7 @@ class ProductsController extends Controller
           
           $flters=new Filter();
           $filter=$flters->getFilter();
-        }
+        
         return $this->render('add', [
             "model"=>$model,
             "model_photo"=>$model_photo,
@@ -228,8 +228,12 @@ class ProductsController extends Controller
         $specifications=new ProductSpecifications();
           if(!empty($request['modeficationIdDel'])){
               $result['affectedRows']=$specifications->delSpecification($request['modeficationIdDel']);
-          }else{
-              $result['affectedRows']= $specifications->addSpecification($request);
+          }elseif($request['type']==2 && !empty($request['modeficationId'])&& $request['modeficationId']!=0){
+               $result['editId']= $specifications->editSpecification($request);
+          }else if($request['type']==1){
+              unset($request['modeficationId']);
+              unset($request['type']);
+              $result['modeficationId']= $specifications->addSpecification($request);
           }
           Yii::$app->response->format = 'json';       
           return $result;
