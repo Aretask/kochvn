@@ -187,14 +187,20 @@ $('#modeficationAdd').on('submit',function(e){
                 data: data,
                 dataType: "json"
             }).done(function(response){
-                if(response.affectedRows){
-                   var row ='<div class="row"><div class="col-sm-3"><b>'+name+'</b></div>'+
+                if(response.modeficationId){
+                   var row ='<div class="row" style=" border-bottom: 1px solid grey; padding: 5px;margin-right: 0px;margin-left: 0px;"><div class="col-sm-3"><b>'+name+'</b></div>'+
                         '<div class="col-sm-7">'+option+'</div></div>';
                    $('#modeficationView').append(row);
+               }else if(response.editId){
+                       $("#mod"+response.editId).find('.valueSpesificns').text(option);
+                       $("#mod"+response.editId).find('.nameSpesificns').text(name);
+                       $("#modeficationId").val(0);
                 }else{
                     var text='Не удалось добавить фильтр';
                     alert(text)
                 }
+               $("#nameSpecifications").val('');
+               $("#valueSpecifications").val('');
 
             })
      
@@ -202,6 +208,32 @@ $('#modeficationAdd').on('submit',function(e){
         alert('Добавьте  сначала товар');
     }
 })
+
+
+function editMod(elem){
+   var editModId=$(elem).attr('editMod');
+   var dane=$(elem).attr('dane');
+   var row=$(elem).parents(".row")[0];
+   if(dane){
+       $(elem).text("EDIT").attr('dane',null);
+       var nameSpesificns=$(row).find("#editName").val();
+       var valueSpesificns=$(row).find("#editValue").val();
+       $('#modeficationId').val(editModId);
+       $('#nameSpecifications').val(nameSpesificns);
+       $('#valueSpecifications').val(valueSpesificns);
+       $('#typeMod').val(2);
+      $('#modeficationAdd').trigger('submit')
+   }else{
+       $(elem).text("SAVE").attr('dane',1);
+       var nameSpesificns=$(row).find(".nameSpesificns");
+       var valueSpesificns=$(row).find(".valueSpesificns");
+       var inputN="<input style='width: 100%;' id='editName' value='"+nameSpesificns.text()+"' >";
+       var inputV="<input style='width: 100%;' id='editValue' value='"+valueSpesificns.text()+"' >";
+       nameSpesificns.html(inputN);
+       valueSpesificns.html(inputV);
+   }
+  
+}
 
 $('.delMod').on('click',function(e){
     e.preventDefault();
@@ -674,9 +706,9 @@ function createRowParse(products,item){
             });  
        }
    })
-   
-  
-   
+
+
+ 
 
 
  
