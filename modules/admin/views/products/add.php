@@ -199,33 +199,38 @@ Breadcrumbs::widget([
 
     <h2>Добавление характеристик</h2>
     <div class="row">
-        <form  id="modeficationAdd">
+    <form  id="modeficationAdd">
             <input type="hidden" value="<?php echo $model->productId; ?>" name="productId">
+            <input id="modeficationId" type="hidden" name="modeficationId" value="0">
+            <input id="typeMod" type="hidden" name="type" value="1">
             <div class="col-md-3">
                 <label >Название характеристики:</label>
                 <input id="nameSpecifications" required name="nameSpecifications" >
             </div>
-            <div class="col-md-3">
+            <div class="col-md-5">
                 <label >Значение характиристики:</label>
-                <input id="valueSpecifications" required  name="valueSpecifications" >
+                <input style="width: 100%;" id="valueSpecifications" required  name="valueSpecifications" >
             </div>
             <div class="col-sm-2">
-                <br>
-                <button type="submit" class="btn btn-default add" >Добавить</button>
+                <br><input type="submit" name="add" onclick="$('#typeMod').val(1);"  value="Добавить" class="btn btn-default" />
             </div>
-        </form>
+       </form>
     </div>
 
     <nav class="navbar navbar-default" id="modeficationView">
 
         <?php
-        foreach ($modificationArray as $kye => $value) {
-            echo '<div class="row"><div class="col-sm-3"><b>' . $value['nameSpecifications'] . '</b></div>
-               <div class="col-sm-7">' . $value['valueSpecifications'] . '</div>
-                   <div class="col-sm-2"><a  class="delMod" delMod="' . $value['id'] .
-            '" title="Удалить опцию" href="javascript:void(0);">DEL</a></div></div>';
-        }
-        ?>
+        foreach ($modificationArray as $kye => $value) {?>
+            <div class="row" style=" border-bottom: 1px solid grey; padding: 5px;margin-right: 0px;margin-left: 0px;" id="mod<?= $value['id'] ?>">
+                <div class="col-sm-3"><b class="nameSpesificns"><?=$value['nameSpecifications'] ?></b></div>
+                <div class="col-sm-7 valueSpesificns"><?=$value['valueSpecifications']  ?></div>
+                <div class="col-sm-1">
+                    <a  class="editMod" onclick="editMod(this)" editMod="<?= $value['id']?>"
+                title="Редактировать опцию" href="javascript:void(0);">EDIT</a>
+                </div>
+                <div class="col-sm-1"><a  class="delMod" delMod="<?= $value['id']?>" 
+                  title="Удалить опцию" href="javascript:void(0);">DEL</a></div></div>
+       <?php } ?>
 
     </nav> 
     <h2>Добавление фотогалереи</h2>
