@@ -34,7 +34,18 @@ Class ProductSpecifications extends ActiveRecord{
         foreach ($data as $key => $value) {
                 $filter_add->$key=$value;
         }
-        return $filter_add->save();
+         $filter_add->save();
+         return $filter_add->id;
+        
+    }
+      public function editSpecification($data){
+       $specification=  self::findOne($data['modeficationId']);
+        foreach ($data as $key => $value) {
+                $specification->nameSpecifications=$data['nameSpecifications'];
+                $specification->valueSpecifications=$data['valueSpecifications'];
+        }
+         $specification->update();
+         return $specification->id;
         
     }
 }
