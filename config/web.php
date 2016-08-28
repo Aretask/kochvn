@@ -39,6 +39,8 @@ $config = [
                  '<rubric:[\w-]+>/brand/<brand:[\w-]+>/?' => '/categories/main',
                  '<rubric:[\w-]+>/<category:[\w-]+>/?' => '/categories/category',
                  '<rubric:[\w-]+>/?' => '/categories/main',
+                 'ajax/<rubric:[\w-]+>/<category:[\w-]+>/?' => '/categories/category-ajax',
+                 'ajax/<rubric:[\w-]+>/<category:[\w-]+>/brand/<brand:[\w-]+>/?' => '/categories/category-ajax',
         
                  
             ),
