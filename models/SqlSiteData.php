@@ -121,16 +121,17 @@ Class SqlSiteData extends \yii\base\Model{
         $queryManager=new QueryManager;
          $from=$page*$limit;
          $limit_sql=" ORDER BY p.dateAdd DESC LIMIT ".$from.",".$limit;
-         $qs="SELECT SQL_CALC_FOUND_ROWS fp.filter,p.*,count(p.productId) as c, mc.imageMade".
+         $qs="SELECT fp.filter,p.*,count(p.productId) as c, mc.imageMade".
             " FROM kochevni_new.pruducts as p ".
             " INNER JOIN kochevni_new.madeCompany as mc ON p.made=mc.idCompany".
             " INNER JOIN kochevni_new.filterProduct as fp ON p.productId=fp.productId".
             " WHERE p.`status`=0  AND p.categoryId =".$data_search['category'].
                     (!empty($data_search['brand_id'])?" AND p.made='".$data_search['brand_id']."'":"").
             " AND  fp.filter IN (".$data_search['filters'].")".
-            " GROUP BY p.productId HAVING c=".$count.$limit_sql;
-        $data= $queryManager->getSqlFullData($qs); 
+            " GROUP BY p.productId HAVING c=".$count;
         $count= count($queryManager->getSqlFullData($qs));
+        $qs.=" ".$limit_sql;
+        $data= $queryManager->getSqlFullData($qs); 
         $made = '';
         if($count!=0){
             foreach ($data as $key => $value) {
