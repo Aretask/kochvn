@@ -94,7 +94,15 @@ if($('.selectpickerl').length){
                     filters+=item.value;
                }
            })
-           location.href=location.pathname+"?filters="+filters;
+            $.ajax({
+                method: "GET",
+                url: "/ajax"+location.pathname+"?filters="+filters
+            })
+                .done(function (response) {
+                    $('#product_category').empty();
+                    $('#product_category').html(response);
+                });
+                window.history.replaceState( {} , $('title').text(), location.pathname+"?filters="+filters );
         });
         
         $('#filters').on('click',function(e){
