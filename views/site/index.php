@@ -258,7 +258,7 @@
         </div>
         <script type="text/javascript">
             VK.Widgets.Group("vk_groups", {mode: 2, width: "620", height: "400",
-                color1:"E31E24",color2:"E31E24",color3:"E31E24"},31697024);
+                color1:"fff",color2:"333",color3:"E31E24"},31697024);
         </script>
     </div>
 </div>
