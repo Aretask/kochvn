@@ -101,7 +101,7 @@ if($('.selectpickerl').length){
                 .done(function (response) {
                     $('#product_category').empty();
                     $('#product_category').html(response);
-                    $("html, body").animate({ scrollTop: 0 }, "slow");
+                    //$("html, body").animate({ scrollTop: 0 }, "slow");
                 });
                 window.history.replaceState( {} , $('title').text(), location.pathname+"?filters="+filters );
         });
