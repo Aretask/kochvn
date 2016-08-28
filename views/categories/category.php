@@ -32,7 +32,7 @@
                     'cat_eng' => $category_params['eng'],
                     'rub_eng' => $rubric_params['eng'],
                     'brand'=>$brand_params['eng']]) ?>
-                <div class="col-sm-7 padding-right">
+                <div id="product_category" class="col-sm-7 padding-right">
                  <?php if(!empty($pruducts)) :?> 
                     <div class="row products">
                          <?php foreach($pruducts as $pruduct) { ?>
@@ -70,8 +70,8 @@
                                                                     </div>
                                                             <a title="<?= $pruduct['title']; ?>" href="/item/<?= $pruduct['translit']; ?>_<?= $pruduct['productId']; ?>.html" class="btn btn-success buttonmerg">Смотреть >></a>
                                                     </div>
-
-                                            </div>
+                 
+                </div>
                                     </div>
                             </div>
                         <?php };?>
