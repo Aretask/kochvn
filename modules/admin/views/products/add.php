@@ -29,7 +29,11 @@ Breadcrumbs::widget([
 ])
 ?>
 <?php if (!empty($error)) { ?>
-<div class="alert alert-warning" role="alert">К сожалению, такого товара еще не создали.</div>
+  <?php if ($error==2) { ?>\
+      <div class="alert alert-warning" role="alert">Товар не создан</div>
+  <?php }else{?>
+      <div class="alert alert-warning" role="alert">К сожалению, такого товара еще не создали.</div>
+   <?php }?>
 <?php }else{?>
 <?php if (!empty($pruductInfo->status) && $pruductInfo->status==1) { ?>
 <div class="alert alert-info" role="alert">Внимание! Создана копия товара<br>
@@ -40,7 +44,7 @@ Breadcrumbs::widget([
     <h3 id="glyphicons-glyphs">Добавление/Редактирование товара
                       <?php
               if (!empty($_GET['err'])) {
-                      echo '<div style="margin-top:20px"class="alert alert-danger" role="alert">Гдето ошибка, данніе не сохранились </div>';
+                      echo '<div style="margin-top:20px"class="alert alert-danger" role="alert">Где-то ошибка, данные не сохранились </div>';
               }
           ?>
         <a href="/admink32/products/add/"> 

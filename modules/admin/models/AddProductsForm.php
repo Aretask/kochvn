@@ -3,6 +3,8 @@
 namespace app\modules\admin\models;
 
 use app\modules\admin\models\Pruducts;
+use app\modules\admin\models\ProductsSearch;
+use app\modules\admin\models\MadeCompany;
 use app\modules\admin\managers\ResizeCrop;
 use app\modules\admin\models\SqlQueryData;
 use app\modules\admin\models\FilterProduct;
@@ -36,6 +38,7 @@ class AddProductsForm extends \yii\base\Model
     public function saveForm($data){
         $image_data = $_FILES['AddProductsForm'];
         $postArray=$data['AddProductsForm'];
+        if(empty($postArray['description'])) return;
         if(!empty($data['copy']) && $data['copy']==1){
             $postArray['productId']=0;
             $postArray['status']=1;
@@ -43,15 +46,36 @@ class AddProductsForm extends \yii\base\Model
           $postArray['status']=0;
           unset($postArray['image']);  
         }
+        $madeCompany =  MadeCompany::find()->where("idCompany = {$postArray['made']}")->one();
         if ($postArray['productId']!=0) {
              $pruducts = Pruducts::findOne($postArray['productId']);
              $pruducts=$this->setArray($pruducts,$postArray, array('productId','translit'));
              $pruducts->update();
+             $productsSearch=ProductsSearch::find()->where("productId ={$postArray['productId']}")->one();
+             if(empty($productsSearch)){
+                $productsSearch= new ProductsSearch(); 
+             }
+             echo $madeCompany->nameCompany." ".$postArray['title'];
+             $productsSearch->titleSearch=$madeCompany->nameCompany." ".$postArray['title'];
+             $productsSearch->productId=$postArray['productId'];
+             $productsSearch->rubric=$postArray['rubricId'];
+             $productsSearch->category=$postArray['categoryId'];
+             $productsSearch->made=$postArray['made'];
+             $productsSearch->save();
+             
         } else {
             $pruducts=new Pruducts();
             $pruducts=$this->setArray($pruducts,$postArray, array('productId'));
             $pruducts->save();
             $postArray['productId'] = \Yii::$app->db->getLastInsertID();
+            
+            $productsSearch=new ProductsSearch();
+            $productsSearch->titleSearch=$madeCompany->nameCompany." ".$postArray['title'];
+            $productsSearch->productId=$postArray['productId'];
+            $productsSearch->rubric=$postArray['rubricId'];
+            $productsSearch->category=$postArray['categoryId'];
+            $productsSearch->made=$postArray['made'];
+            $productsSearch->save();
         }
         $sqlQueryData=new SqlQueryData();
         $sqlQueryData->setMadeCategory($postArray['rubricId'],$postArray['categoryId'],$postArray['made']);
