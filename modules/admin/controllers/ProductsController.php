@@ -91,6 +91,7 @@ class ProductsController extends Controller
         $sqlQueryData=new SqlQueryData;
         $model= new AddProductsForm();
         $model_photo=new AddProductsGalleryForm();
+        $categories=new Categories();
         $request=Yii::$app->request->get();
         $post_data=Yii::$app->request->post();
         $pruductInfo=array();
@@ -106,13 +107,17 @@ class ProductsController extends Controller
                if(!empty($post_data['copy']) && $post_data['copy']==1){
                    $model->copyItemData($post_data['AddProductsForm']['productId'],$id);
                }
-               return $this->redirect("/admink32/products/add?id=".$id);
+                return $this->redirect("/admink32/products/add?id=".$id);
             }else{
-               return $this->redirect("/admink32/products/add?errr=1&id=".$request['id']);
+               if(empty($id)){
+                 return $this->redirect("/admink32/products/add?errr=2");  
+               }else
+                 return $this->redirect("/admink32/products/add?errr=1&id=".$request['id']);
             }
         }
         //Если есть ID
-        if(!empty($request)){
+        $categoriesInfo=$categories->getCategories(1);
+        if(!empty($request) && !empty($request['id'])){
           $id=$request['id'];
           $pruductInfo=Pruducts::findOne($id);
           if(!empty($pruductInfo)){
@@ -130,9 +135,8 @@ class ProductsController extends Controller
           $pruductInf['categoryId']=$pruductInfo->categoryId;
           $pruductInf['made']=$pruductInfo->made;
           $model->setAttributes($pruductInf,'');
-          $categories=new Categories();
           $categoriesInfo=$categories->getCategories($pruductInfo->rubricId);
-          
+
           $productSpecifications=new ProductSpecifications();
           $modificationArray=$productSpecifications->getSpecifications($id);
           
@@ -146,8 +150,11 @@ class ProductsController extends Controller
           }
           
         }else{
-            $error=true;
+            $error=1;
         }
+        }
+        if(!empty($request['errr'])){
+            $error=$request['errr'];
         }
         //Остальная инфо
         
