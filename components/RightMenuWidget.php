@@ -29,6 +29,9 @@ class RightMenuWidget extends Widget
             $filters[$value['filterId']]['name']=$value['nameFilter'];
             $filters[$value['filterId']]['filters'][$value['idItem']]=$value['nameItem'];
         }
+        foreach ($filters as $key=>$filter){
+          natsort($filters[$key]['filters']);
+        }
         return $this->render('rightMenu',[
              'brands' => $brands,
              'brand_active'=>$this->brand,
