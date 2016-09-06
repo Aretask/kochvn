@@ -121,7 +121,7 @@ Class SqlSiteData extends \yii\base\Model{
         $queryManager=new QueryManager;
          $from=$page*$limit;
          $limit_sql=" ORDER BY p.dateAdd DESC LIMIT ".$from.",".$limit;
-         $qs="SELECT p.*,count(p.productId) as c, mc.imageMade".
+         $qs="SELECT fp.filter,p.*,count(p.productId) as c, mc.imageMade".
             " FROM kochevni_new.pruducts as p ".
             " INNER JOIN kochevni_new.madeCompany as mc ON p.made=mc.idCompany".
             " INNER JOIN kochevni_new.filterProduct as fp ON p.productId=fp.productId".
