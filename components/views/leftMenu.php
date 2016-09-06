@@ -1,5 +1,14 @@
 <div class="col-sm-3">
     <div class="left-sidebar">
+        <div class="brands_products"><!--brands_products-->
+            <h2>Поиск</h2>
+            <div class="panel-body">
+                <input type="search"  class="form-control" id="search">
+                <span id="search_error" style="font-style: italic;"></span>
+            </div>
+            <div id="search_result" class="poup_serach hide">
+            </div>
+        </div>
           <?php if(!empty($companies)) :?> 
         <div class="brands_products"><!--brands_products-->
             <h2>Бренды</h2>

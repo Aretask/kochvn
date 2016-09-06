@@ -121,7 +121,7 @@ Class SqlSiteData extends \yii\base\Model{
         $queryManager=new QueryManager;
          $from=$page*$limit;
          $limit_sql=" ORDER BY p.dateAdd DESC LIMIT ".$from.",".$limit;
-         $qs="SELECT fp.filter,p.*,count(p.productId) as c, mc.imageMade".
+         $qs="SELECT p.*,count(p.productId) as c, mc.imageMade".
             " FROM kochevni_new.pruducts as p ".
             " INNER JOIN kochevni_new.madeCompany as mc ON p.made=mc.idCompany".
             " INNER JOIN kochevni_new.filterProduct as fp ON p.productId=fp.productId".
@@ -148,6 +148,44 @@ Class SqlSiteData extends \yii\base\Model{
             }
         }
         return array('data'=>$gallery_date,'total'=>$count,'made'=>$made);
+    }
+
+    public function getProductsSearch($search_word,$limit,$page){
+        if(empty($search_word) || strlen($search_word)<2){
+            return [];
+        }
+        $from=$page*$limit;
+        $count=0;
+        $limit_sql=" ORDER BY p.dateAdd DESC LIMIT ".$from.",".$limit;
+        $queryManager=new QueryManager;
+        $date=array();
+        $search_word_array=explode(" ",$search_word);
+        if(count($search_word_array)>1){
+            $search_word=implode("(.*)",$search_word_array);
+        }
+        $sql="SELECT p.* FROM kochevni_new.productsSearch as ps "
+                . " INNER JOIN kochevni_new.pruducts as p  ON ps.productId=p.productId"
+                . " WHERE p.status=0 AND ps.titleSearch RLIKE '".$search_word."'";
+        if($limit==12){
+          $count= count($queryManager->getSqlFullData($sql));
+        }
+        $sql.=" ".$limit_sql;
+        $products= $queryManager->getSqlFullData($sql);
+         $made='';
+        if(!empty($products)){
+            foreach ($products as $key => $value) {
+                 $date[$key]['title']=$value['title'];
+                 $date[$key]['image']=preg_replace("/medium/","thumb",$value['image']);
+                 $date[$key]['price']=$value['price'];
+                 $date[$key]['priceAction']=$value['priceAction'];
+                 $date[$key]['translit']=$value['translit'];
+                 $date[$key]['productId']=$value['productId'];
+                 $date[$key]['made']=$value['made'];
+                 if($made)$made.=",";
+                    $made.=$value['made'];
+            }
+        }
+        return array('data'=>$date,'made'=>$made,'total'=>$count);
     }
 
     

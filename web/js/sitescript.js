@@ -23,6 +23,35 @@ $( document ).ready(function() {
           $('#view_more').attr('href',"/"+href);
       })
   }
+  
+//big search
+if($('#search').length){
+  $('#search').on('keyup',function(e){
+      var value=$(e.target).val();
+      if(value.length<2){
+          $('#search_result').addClass('hide');
+          $('#search_result').empty();
+          $("#search_error").text("");
+      }else{
+          $("#search_error").text("");
+          $.ajax({
+              method: "GET",
+              url: "/search_ajax/?search_word="+value
+          })
+              .done(function (response) {
+                  if(response){
+                      $('#search_result').removeClass('hide');
+                      $('#search_result').empty();
+                      $('#search_result').html(response);
+                  }else{
+                      $('#search_result').addClass('hide');
+                      $("#search_error").text("По вашему запросу ничего не найдено.");
+                  }
+              });
+      }
+   });
+}
+
     
     //made on category
 if($('.selectpickerl').length){

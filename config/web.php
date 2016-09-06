@@ -9,7 +9,7 @@ $config = [
     'bootstrap' => ['log'],
     'components' => [
         'urlManager'=>array(
-           // 'baseUrl'=>'http://kochevnik.com.ua',
+       //     'baseUrl'=>'http://kochevnik.com.ua',
             'baseUrl'=>'http://kochevn',
             'enablePrettyUrl' => true,
             'showScriptName'=>false, 
@@ -22,6 +22,8 @@ $config = [
              'POST,GET admink32/products/<action:[\w-]+>/?' => 'admin/products/<action>',
              'admink32/parse/<action:[\w-]+>/?' => 'admin/parse/<action>',
              'admink32/different/<action:[\w-]+>/?' => 'admin/different/<action>',
+             'search/?' => '/categories/search-word-list',
+             'search_ajax/?' => '/categories/search-word',
                  [
                     'pattern' => 'item/<product:[\w-]+>',
                     'route' => '/product/show',

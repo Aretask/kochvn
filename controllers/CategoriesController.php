@@ -214,7 +214,7 @@ use yii\data\Pagination;
         $limit=9;
         $get_data = Yii::$app->request->get();
         
-           if(!empty($get_data['filters'])){
+        if(!empty($get_data['filters'])){
            $filter=$get_data['filters'];
            $filter=explode(",",$filter);
            $countfilter=count($filter);
@@ -276,17 +276,91 @@ use yii\data\Pagination;
         if($current_page>1){
            $page_param="?page=".($current_page-1); 
         }
-        return $this->render('product_category',[
-           "pruducts"=>$pruduct_cat,
-            'pages' => $pages,
-            'total' => $total,
-            "page_param"=>$page_param,
-            "brands_array"=>$brands_array
-        ]); 
-    }
-    
-   
-    
-    
+            return $this->render('product_category',[
+               "pruducts"=>$pruduct_cat,
+                'pages' => $pages,
+                'total' => $total,
+                "page_param"=>$page_param,
+                "brands_array"=>$brands_array
+            ]); 
+        }
+        
+        public function actionSearchWord() {
+            $this->layout=false;  
+            $get_data = Yii::$app->request->get();
+            $search_word=trim($get_data['search_word']);
+            $search_word=quotemeta($search_word);
+            $search_word=addslashes($search_word);
+            if(empty($search_word) || strlen($search_word)<2){
+                return;
+            }
+            $brands_array=array();
+           $qlSiteData=new SqlSiteData(); 
+           $pruducts=$qlSiteData->getProductsSearch($search_word,5,0);
+
+        if(empty($pruducts['data'])){
+            return;
+        }
+         if(!empty($pruducts['made'])){
+            $madeCompany=new MadeCompany();
+            $brands=$madeCompany->getMadeCompanyByIds($pruducts['made']);
+            foreach ($brands as $value) {
+              $brands_array[$value['idCompany']]['imageMade'] =$value['imageMade'];
+               $brands_array[$value['idCompany']]['nameCompany'] =$value['nameCompany'];
+            }
+         }
+
+           return $this->render('search_word',[
+               "pruducts"=>$pruducts['data'],
+               "search_word"=>$search_word,
+               "brands_array"=>$brands_array
+            ]); 
+        }
+
+        public function actionSearchWordList() {
+            $get_data = Yii::$app->request->get();
+            $search_word=trim($get_data['search_word']);
+            $search_word=quotemeta($search_word);
+            $search_word=addslashes($search_word);
+
+            $brands_array=array();
+            $pages=array();
+            $limit=12;
+            $get_data = Yii::$app->request->get();
+
+            Yii::$app->view->params['title'] = "Кочевник сайт туристического снаряжения.  ".$search_word;
+            Yii::$app->view->params['url']= "http://kochevnik.com.ua".$_SERVER['REQUEST_URI'];
+
+            if(empty($get_data['page'])){
+                $get_data['page']=1;
+            }
+            $current_page=$get_data['page']-1;
+            $qlSiteData=new SqlSiteData();
+            $pruducts=$qlSiteData->getProductsSearch($search_word,$limit,$current_page);
+
+            if(!empty($pruducts['made'])){
+                $madeCompany=new MadeCompany();
+                $brands=$madeCompany->getMadeCompanyByIds($pruducts['made']);
+                foreach ($brands as $value) {
+                    $brands_array[$value['idCompany']]['imageMade'] =$value['imageMade'];
+                    $brands_array[$value['idCompany']]['nameCompany'] =$value['nameCompany'];
+                }
+            }
+            $total=$pruducts['total'];
+            $pruduct_cat=$pruducts['data'];
+            if($total>12){
+                $pages = new Pagination(['totalCount' => $total,
+                    'defaultPageSize'=>9]);
+                $pages->setPage($current_page);
+            };
+            return $this->render('search_list',[
+                "pruducts"=>$pruduct_cat,
+                "search_word"=>$search_word,
+                'pages' => $pages,
+                'total' => $total,
+                "brands_array"=>$brands_array
+            ]);
+
+        }
  }
 ?>
