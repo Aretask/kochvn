@@ -350,7 +350,7 @@ use yii\data\Pagination;
             $pruduct_cat=$pruducts['data'];
             if($total>12){
                 $pages = new Pagination(['totalCount' => $total,
-                    'defaultPageSize'=>9]);
+                    'defaultPageSize'=>12]);
                 $pages->setPage($current_page);
             };
             return $this->render('search_list',[
