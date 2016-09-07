@@ -20,7 +20,7 @@
             <div data-u="prototype" style="width:12px;height:12px;"></div>
         </div>
         <!-- Arrow Navigator -->
-        <span data-u="arrowleft" class="jssora13l" style="top:0;left:30;width:40px;height:50px;" data-autocenter="2"></span>
+        <span data-u="arrowleft" class="jssora13l" style="top:0;left:30px;width:40px;height:50px;" data-autocenter="2"></span>
         <span data-u="arrowright" class="jssora13r" style="top:0px;right:30px;width:40px;height:50px;" data-autocenter="2"></span>
         <a href="http://www.jssor.com" style="display:none">Slideshow Maker</a>
     </div>
