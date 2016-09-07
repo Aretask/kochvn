@@ -160,7 +160,9 @@ Class SqlSiteData extends \yii\base\Model{
         $queryManager=new QueryManager;
         $date=array();
         $search_word_array=explode(" ",$search_word);
-        if(count($search_word_array)>1){
+        if(count($search_word_array)>4) {
+            return [];
+        }else if(count($search_word_array)>1){
             $search_word=implode("(.*)",$search_word_array);
         }
         $sql="SELECT p.* FROM kochevni_new.productsSearch as ps "
