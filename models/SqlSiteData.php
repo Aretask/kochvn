@@ -159,10 +159,13 @@ Class SqlSiteData extends \yii\base\Model{
         $limit_sql=" ORDER BY p.dateAdd DESC LIMIT ".$from.",".$limit;
         $queryManager=new QueryManager;
         $date=array();
+        $this->historySearch($search_word);
         $search_word_array=explode(" ",$search_word);
         if(count($search_word_array)>4) {
-            return [];
-        }else if(count($search_word_array)>1){
+            $search_word_array=array_slice($search_word_array,0,4);
+        }
+
+        if(count($search_word_array)>1){
             $search_word=implode("(.*)",$search_word_array);
         }
         $sql="SELECT p.* FROM kochevni_new.productsSearch as ps "
@@ -188,6 +191,15 @@ Class SqlSiteData extends \yii\base\Model{
             }
         }
         return array('data'=>$date,'made'=>$made,'total'=>$count);
+    }
+
+    public function historySearch($searchWord){
+        $queryManager=new QueryManager;
+        $sql="INSERT INTO  kochevni_new.historySearch set wordSearch='{$searchWord}',".
+                " count=1, dateAdd='".date("Y-m-d H-n-s")."'".
+            " ON DUPLICATE KEY UPDATE count=count+1, dateAdd='".date("Y-m-d H-n-s")."'";
+        $queryManager->updateSqlData($sql);
+
     }
 
     
