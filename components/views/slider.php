@@ -1,15 +1,17 @@
 <div class="row mhide" style="margin-bottom: 10px;">
 <div class="col-sm-8">
-<div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 800px; height: 300px; overflow: hidden; visibility: hidden;">
+<div id="jssor_1" style="position: relative; margin: 0 auto; top: 0; left: 0; width: 800px; height: 300px; overflow: hidden; visibility: hidden;">
         <!-- Loading Screen -->
-        <div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
-            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
-            <div style="position:absolute;display:block;background:url('/images/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
+        <div data-u="loading" style="position: absolute; top: 0; left: 0;">
+            <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0; left: 0; width: 100%; height: 100%;"></div>
+            <div style="position:absolute;display:block;background:url('/images/loading.gif') no-repeat center center;top:0;left:0;width:100%;height:100%;"></div>
         </div>
-        <div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 800px; height: 300px; overflow: hidden;">
+        <div data-u="slides" style="cursor: default; position: relative; top: 0; left: 0; width: 800px; height: 300px; overflow: hidden;">
             <?php foreach($photo as $value) { ?>
-            <div data-p="112.50" style="display: none;">
-                <img data-u="image" src="<?= $value['photoUrl']; ?>" />
+            <div  style="display: none;">
+                <a href="<?= $value['linkUrl']; ?>" target="_blank">
+                    <img data-u="image" src="<?= $value['photoUrl']; ?>" />
+                </a>
             </div>
              <?php };?>
         </div>
@@ -18,7 +20,7 @@
             <div data-u="prototype" style="width:12px;height:12px;"></div>
         </div>
         <!-- Arrow Navigator -->
-        <span data-u="arrowleft" class="jssora13l" style="top:0px;left:30px;width:40px;height:50px;" data-autocenter="2"></span>
+        <span data-u="arrowleft" class="jssora13l" style="top:0;left:30;width:40px;height:50px;" data-autocenter="2"></span>
         <span data-u="arrowright" class="jssora13r" style="top:0px;right:30px;width:40px;height:50px;" data-autocenter="2"></span>
         <a href="http://www.jssor.com" style="display:none">Slideshow Maker</a>
     </div>
