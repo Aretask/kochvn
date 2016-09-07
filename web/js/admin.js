@@ -36,7 +36,7 @@ function countRealPriceAction(elem){
 }
 function checkAllow(elem,type){
     if(type=='category'){
-        if($(elem).parents('div').prev().find('select').val()==0){
+        if($(elem).parent().prev().find('select').val()==0){
           translitText(elem,$(elem).next())
         }
     }else if(type=="brand"){
@@ -359,6 +359,7 @@ if($('#categoryChange').length){
           parent.find('[name="eng"]').val(eng);
           parent.find('[name="orderCat"]').val(order);
         parent.find('.redug').attr('disabled',null);  
+        parent.find('.del').attr('disabled',null);  
         parent.find('.add').attr('disabled','disabled');  
       }else{
           parent.find('[name="name"]').val('');
@@ -366,6 +367,7 @@ if($('#categoryChange').length){
           parent.find('[name="eng"]').val('');
         parent.find('.redug').attr('disabled','disabled');  
         parent.find('.add').attr('disabled',null);  
+        parent.find('.del').attr('disabled','disabled');  
       }
   })
     
@@ -439,6 +441,25 @@ if($('.dellBlack').length){
   
 }
 //Search Products
+
+ //big search
+ if($('#search_word').length){
+     $('#search_word').on('keyup',function(e,page){
+         if(!page) page=1;
+         var value=$(e.target).val();
+         if(value.length>1){
+             $.ajax({
+                 method: "GET",
+                 url: "/admin/products/searchword/?search_word="+value+"&page="+page
+             })
+                 .done(function(response) {
+                     $('#allInput').attr('checked',null);
+                     $('#containerProducts').empty();
+                     $('#containerProducts').append(response)
+                 });
+         }
+     });
+ }
     $('#searchProduct').on('submit',function(e,page){
             if(!page) page=1;
             e.preventDefault();

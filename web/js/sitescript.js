@@ -115,24 +115,17 @@ if($('.selectpickerl').length){
         $('#filters').on('submit',function(e){
            e.preventDefault(0);
            var data=$( this ).serializeArray();
-           var patt = new RegExp("filter");
-           var filters='';
-           data.forEach(function(item){
-               if(patt.test(item.name)){
-                  if(filters)filters+=",";
-                    filters+=item.value;
-               }
-           })
+           var url_params = jQuery.param(data);
             $.ajax({
                 method: "GET",
-                url: "/ajax"+location.pathname+"?filters="+filters
+                url: "/ajax"+location.pathname+"?"+url_params
             })
                 .done(function (response) {
                     $('#product_category').empty();
                     $('#product_category').html(response);
                     //$("html, body").animate({ scrollTop: 0 }, "slow");
                 });
-                window.history.replaceState( {} , $('title').text(), location.pathname+"?filters="+filters );
+                window.history.replaceState( {} , $('title').text(), location.pathname+"?"+url_params );
         });
         
         $('#filters').on('click',function(e){

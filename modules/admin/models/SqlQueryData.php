@@ -76,6 +76,47 @@ Class SqlQueryData extends \yii\base\Model{
         return $result;
        
    }
+
+   public function getProductsSearch($data){
+       if(empty($data['search_word']) || strlen($data['search_word'])<2){
+           return [];
+       }
+       $limit=10;
+       $search_word=$data['search_word'];
+       $page=(int) $data['page'];
+       if($page<2){
+           $page=0;
+       }else{
+           $page--;
+       };
+       $from=$page*$limit;
+       $limit_sql=" ORDER BY p.dateAdd DESC LIMIT ".$from.",".$limit;
+       $queryManager=new QueryManager;
+       $search_word_array=explode(" ",$search_word);
+       if(count($search_word_array)>4) {
+           $search_word_array=array_slice($search_word_array,0,4);
+       }
+
+       if(count($search_word_array)>1){
+           $search_word=implode("(.*)",$search_word_array);
+       }
+       $where=" ps.titleSearch RLIKE '".$search_word."'";
+       $sql='SELECT p.productId,p.title ,p.price,p.priceSet, p.status, m.nameSuplier,
+            m.curenccy,c.name,GROUP_CONCAT(fi.nameItem) as filter' .
+           ' FROM kochevni_new.productsSearch as ps '.
+           ' INNER JOIN kochevni_new.pruducts as p  ON ps.productId=p.productId'.
+           ' LEFT JOIN kochevni_new.filterProduct as fp ON p.productId=fp.productId '.
+           ' LEFT JOIN kochevni_new.filterItem as fi ON fp.filter=fi.idItem '.
+           ' INNER JOIN kochevni_new.madeSuplier as m ON p.currency=m.idSuplier '.
+           ' INNER JOIN kochevni_new.categories as c ON p.categoryId=c.categoryId '.
+           ' WHERE '.$where.' GROUP BY p.productId '.$limit_sql;
+       $sql_count="SELECT p.productId FROM kochevni_new.productsSearch as ps "
+           . " INNER JOIN kochevni_new.pruducts as p  ON ps.productId=p.productId"
+           . " WHERE  ps.titleSearch RLIKE '".$search_word."'";
+       $count= count($queryManager->getSqlFullData($sql_count));
+       $products= $queryManager->getSqlFullData($sql);
+       return array('data'=>$products,'total'=>$count);
+   }
    
    public function  getSuplierCurrency($idsSet) {
         $queryManager=new QueryManager;

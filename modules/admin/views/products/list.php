@@ -28,6 +28,9 @@ Breadcrumbs::widget([
 
 <div class="row row-offcanvas row-offcanvas-right">
     <h3 id="glyphicons-glyphs">Поиск товара</h3>
+    <div class="form-group">
+        <input type="text" class="form-control" id="search_word" style="width: 200px">
+    </div>
         <form method="GET" id="searchProduct">
             <div class="row">
                  <div class="col-md-3">
@@ -55,7 +58,7 @@ Breadcrumbs::widget([
             </select>
                  </div>
                               <div  class="col-md-2">
-                                   <label >ID товаара:</label>
+                                   <label >ID товара:</label>
             <input type="text" name="productId">
             </div>
                        <div  class="col-md-2">

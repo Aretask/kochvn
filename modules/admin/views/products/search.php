@@ -23,11 +23,16 @@
     'pagination' => $pages,
 ]);?>
                   <script>
+                      var word='<?= $word ;?>';
                       $('#pagination').find('a').on('click',function(e){
                           e.preventDefault();
                           var page=$(e.target).attr('data-page');
                           page=Number(page)+1;
-                          $('#searchProduct').trigger('submit',page);
+                          if(word==1){
+                              $('#search_word').trigger('keyup',page);
+                          }else{
+                            $('#searchProduct').trigger('submit',page);
+                          }
                       })
               </script>
              </td>

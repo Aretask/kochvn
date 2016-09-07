@@ -110,18 +110,19 @@ use yii\data\Pagination;
         $rubric_params=array();
         $brand_params=array('eng'=>'','id'=>'');
         $page_param='';
-        $morefilter=false;
+        $morefilter=1;
         $limit=9;
         $get_data = Yii::$app->request->get();
-        if(!empty($get_data['filters'])){
-           $filter=$get_data['filters'];
-           $filter=explode(",",$filter);
-           $countfilter=count($filter);
-           if($countfilter!=1){
-              $morefilter=true;
-           }
-           $filters=$get_data['filters'];
-           $data_search['filters']=$get_data['filters'];
+        if(!empty($get_data['filter'])){
+            $filter=$get_data['filter'];
+            $morefilter=count($filter);
+            $filters_item_id='';
+            foreach ($filter as $filter_id =>$item_value){
+                if(!empty($filters_item_id))$filters_item_id.=",";
+                $filters_item_id.=implode(",",$item_value);
+            }
+            $filters=$filters_item_id;
+            $data_search['filters']=$filters_item_id;
         }else{
             $filters='';
         }
@@ -159,12 +160,12 @@ use yii\data\Pagination;
            $get_data['page']=1; 
         }
         $current_page=$get_data['page']-1;
-        if(empty($morefilter)){
+        if($morefilter==1){
             $pruducts=new Pruducts();
             $pruduct_clothess=$pruducts->getProducts($data_search,$limit,$current_page);
         }else{
            $qlSiteData=new SqlSiteData(); 
-           $pruduct_clothess=$qlSiteData->getProductsFilter($data_search,$countfilter,$limit,$current_page);
+           $pruduct_clothess=$qlSiteData->getProductsFilter($data_search,$morefilter,$limit,$current_page);
         }
          if(!empty($pruduct_clothess['made'])){
             $madeCompany=new MadeCompany();
@@ -210,20 +211,20 @@ use yii\data\Pagination;
         $rubric_params=array();
         $brand_params=array('eng'=>'','id'=>'');
         $page_param='';
-        $morefilter=false;
+        $morefilter=1;
         $limit=9;
         $get_data = Yii::$app->request->get();
-        
-        if(!empty($get_data['filters'])){
-           $filter=$get_data['filters'];
-           $filter=explode(",",$filter);
-           $countfilter=count($filter);
-           if($countfilter!=1){
-              $morefilter=true;
-           }
-           $data_search['filters']=$get_data['filters'];
+        if(!empty($get_data['filter'])){
+           $filter=$get_data['filter'];
+            $morefilter=count($filter);
+            $filters_item_id='';
+            foreach ($filter as $filter_id =>$item_value){
+                if(!empty($filters_item_id))$filters_item_id.=",";
+                $filters_item_id.=implode(",",$item_value);
+            }
+           $data_search['filters']=$filters_item_id;
         }
-        
+
         $rubric=$get_data['rubric'];
         if(empty($rubricsData[$rubric])){
            return $this->redirect("/empty");   
@@ -251,12 +252,12 @@ use yii\data\Pagination;
            $get_data['page']=1; 
         }
         $current_page=$get_data['page']-1;
-        if(empty($morefilter)){
+        if($morefilter==1){
             $pruducts=new Pruducts();
             $pruduct_clothess=$pruducts->getProducts($data_search,$limit,$current_page);
         }else{
-           $qlSiteData=new SqlSiteData(); 
-           $pruduct_clothess=$qlSiteData->getProductsFilter($data_search,$countfilter,$limit,$current_page);
+           $qlSiteData=new SqlSiteData();
+           $pruduct_clothess=$qlSiteData->getProductsFilter($data_search,$morefilter,$limit,$current_page);
         }
          if(!empty($pruduct_clothess['made'])){
             $madeCompany=new MadeCompany();

@@ -285,7 +285,30 @@ class ProductsController extends Controller
         return $this->render('search', [
             "data"=>$data['data'],
             'pages' => $pages,
-            'total' => $total
+            'total' => $total,
+             "word"=>0
+        ]);
+    }
+    public function actionSearchword(){
+        $this->layout = false;
+        $pages=array();
+        $get_data = Yii::$app->request->get();
+        $search_word=trim($get_data['search_word']);
+        $search_word=quotemeta($search_word);
+        $get_data['search_word']=addslashes($search_word);
+        $sqlQueryData=new SqlQueryData();
+        $pruducts=$sqlQueryData->getProductsSearch($get_data);
+        $total=$pruducts['total'];
+        if($total>10){
+            $pages = new Pagination(['totalCount' => $total,
+                'defaultPageSize'=>10]);
+            $pages->setPage($get_data['page']-1);
+        };
+        return $this->render('search', [
+            "data"=>$pruducts['data'],
+            'pages' => $pages,
+            'total' => $total,
+             "word"=>1
         ]);
     }
     
