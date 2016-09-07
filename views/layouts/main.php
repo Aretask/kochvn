@@ -20,7 +20,7 @@
     <link href="/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
     <link href="/css/animate.css" rel="stylesheet">
-	<link href="/css/sait.css" rel="stylesheet">
+	<link href="/css/sait.css?v=1.0" rel="stylesheet">
 	<link href="/css/slider.css" rel="stylesheet">
 	<!--<link href="css/responsive.css" rel="stylesheet">-->
         <script src="http://vk.com/js/api/openapi.js" type="text/javascript"></script>

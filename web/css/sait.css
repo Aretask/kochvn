@@ -1160,7 +1160,6 @@ h2.title {
   display: inline-block;
   margin-left: 5px;
   height: 85px;
-  width: 125px;
 }
 
 .item-control {
@@ -2631,7 +2630,7 @@ del{color: #999999;}
 #search_result li {
   margin-top: 0;
 }
-li:hover{
+#search_resul li:hover{
   box-shadow: 0 0 1px 0 #2d2d2d;
 }
 .search_list{
@@ -2641,6 +2640,11 @@ li:hover{
 }
 .green{
   color:green;
+}
+.galery_item{
+    float: left;
+    width: 33%;
+    text-align: center;
 }
 
 

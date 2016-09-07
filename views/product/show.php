@@ -35,7 +35,9 @@ $count_photo = 0;
                                             <?php if ($count_photo != 0 && $count_photo % 3 == 0): ?>
                                             <div class="item">
                                             <?php endif; ?>
-                                            <img src="<?= $value['thumb'] ?>" alt="">
+                                            <div class="galery_item">
+                                               <img src="<?= $value['thumb'] ?>" alt="">
+                                            </div>
                                         <?php $count_photo++; ?>
                                         <?php if ($count_photo && $count_photo % 3 == 0): ?>
                                             </div>
