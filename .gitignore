@@ -1,9 +1,9 @@
 # phpstorm project files
 .idea
 web/parsefile
-vendor
-tests
-runtime
+vendor/*
+tests/*
+runtime/*
 
 # netbeans project files
 nbproject
