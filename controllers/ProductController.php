@@ -237,7 +237,7 @@ class ProductController extends Controller
         'orders'=>$orders,      
        ])
      ->setFrom('info@kochevnik.com.ua')
-     ->setTo('olesya.riltsova@gmail.com')
+     ->setTo(array('olesya.riltsova@gmail.com',"kochevnik.vn@gmail.com"))
      ->setSubject('Заказ с сайта Кочевник')
      ->send();
         
