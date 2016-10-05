@@ -51,7 +51,7 @@ $menu=$this->params['menu'];
 						<div class="contactinfo">
 							<ul class="nav nav-pills">
                                                             <li class="phone_detail">&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-phone"></i>(093) 18-96-333, &nbsp;&nbsp;(096) 66-25-670&nbsp;&nbsp;&nbsp;   </li>
-							    <li class="phone_detail"><i class="fa fa-envelope"></i> i@kochevnik.com.ua</li>
+							    <li class="phone_detail"><i class="fa fa-envelope"></i>kochevnik.vn@gmail.com</li>
 							</ul>
 						</div>
 					</div>
@@ -202,7 +202,7 @@ $menu=$this->params['menu'];
                              <ul class="nav nav-pills nav-stacked">
                                  <li style="color: #fff;"><i class="fa fa-phone"></i>&nbsp;(093) 18-96-333</li>
                                  <li style="color: #fff;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(096) 66-25-670</li>
-                                 <li style="color: #fff;"><i class="fa fa-envelope"></i> i@kochevnik.com.ua</li>
+                                 <li style="color: #fff;"><i class="fa fa-envelope"></i> kochevnik.vn@gmail.com</li>
                              </ul>
                            </p>
 

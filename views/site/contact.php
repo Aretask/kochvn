@@ -16,7 +16,7 @@
 							<p>(возле Петроцентра) </p>
 							<p>Life: (093) 18-96-333</p>
 							<p>KyivStar: (096) 66-25-670</p>
-							<p>Email: i@kochevnik.com.ua</p>
+							<p>Email: kochevnik.vn@gmail.com</p>
                                                         <hr>
 							<p>Пн-Пт 10:00 - 20:00</p>
 							<p>Суббота 10:00 - 17:00</p>
