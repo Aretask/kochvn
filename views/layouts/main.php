@@ -58,6 +58,7 @@ $menu=$this->params['menu'];
 					<div class="col-sm-6">
 						<div class="social-icons pull-right">
 							<ul class="nav navbar-nav">
+								<li><a  target="_blank"href="https://www.facebook.com/KochevnikShop"><i class="fa fa-facebook"></i></a></li>
 								<li><a  target="_blank"href="https://vk.com/kochevnik_shop"><i class="fa fa-vk"></i></a></li>
 								<li><a  target="_blank"href="https://www.instagram.com/kochevnik.com.ua/"><i class="fa fa-instagram"></i></a></li>
 							</ul>
